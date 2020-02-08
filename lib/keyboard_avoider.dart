@@ -25,6 +25,9 @@ class KeyboardAvoider extends StatefulWidget {
   /// Space to put between the focused widget and the top of the keyboard. Defaults to 12.
   /// Useful in case the focused widget is inside a parent widget that you also want to be visible.
   final double focusPadding;
+  
+  //修改的
+  final ScrollController scrollController;
 
   KeyboardAvoider({
     Key key,
@@ -33,6 +36,7 @@ class KeyboardAvoider extends StatefulWidget {
     this.curve = Curves.easeOut,
     this.autoScroll = false,
     this.focusPadding = 12.0,
+    this.scrollController,
   })  : assert(child is ScrollView ? child.controller != null : true),
         super(key: key);
 
@@ -81,7 +85,7 @@ class _KeyboardAvoiderState extends State<KeyboardAvoider> with WidgetsBindingOb
     // embed the [child] in a [SingleChildScrollView] to make
     // it possible to scroll to the focused widget.
     if (widget.autoScroll) {
-      _scrollController = new ScrollController();
+      _scrollController = widget.scrollController==null?new ScrollController():widget.scrollController;
       return _buildAnimatedContainer(LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
